@@ -11,26 +11,57 @@ end
 --]]
 local nvim_lsp = {
     "neovim/nvim-lspconfig",
+    dependencies = {
+        "tamago324/nlsp-settings.nvim"
+    },
     config = function()
+        local lspconfig = require("lspconfig")
+        local nlspsettings = require("nlspsettings")
+        
+        --[[
+        nlspsettings.setup({
+            config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
+            local_settings_dir = ".nlsp-settings",
+            local_settings_root_markers_fallback = { '.git' },
+            append_default_schemas = true,
+            loader = 'json'
+        })
+        --]]
         -- Set up lspconfig.
-        local capabilities = require('cmp_nvim_lsp').default_capabilities()
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities.textDocument.completion.completionItem.snippetSupport = true
+        -- local cmp_nvim_lsp = require("cmp_nvim_lsp").update_capabilities(capabilities)
         -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
         -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
             -- capabilities = capabilities
         -- }
-        require("lspconfig").lua_ls.setup{
+        lspconfig.lua_ls.setup{
             -- on_attach = on_attach
+            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities),
+            on_init = function(client)
+                local path = client.workspace_folders[1].name
+                if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
+                    client.config.settings = vim.tbl_deep_extend(
+                        'force',
+                        client.config.settings.Lua,
+                        require("module.plugin.lspservice.luals")
+                    )
+                    client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+                end
+                return true
+            end,
+                    }
+        lspconfig.clangd.setup{
             capabilities = capabilities
         }
-        require("lspconfig").clangd.setup{
+        lspconfig.jsonls.setup{}
+        lspconfig.pyright.setup{
             capabilities = capabilities
         }
-        require("lspconfig").jsonls.setup{}
-        require("lspconfig").pyright.setup{
-            capabilities = capabilities
+        lspconfig.yamlls.setup{}
+        lspconfig.bashls.setup{
+            require("module.plugin.lspservice.bashls")
         }
-        require("lspconfig").yamlls.setup{}
-        require("lspconfig").bashls.setup{}
     end
 }
 

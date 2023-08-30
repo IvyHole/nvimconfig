@@ -37,4 +37,5 @@ require("lazy").setup({
     require("module.plugin.lspsaga"),
     require("module.plugin.nullls"),
     require("module.plugin.fidget"),
+    require("module.plugin.nvimnotify"),
 })

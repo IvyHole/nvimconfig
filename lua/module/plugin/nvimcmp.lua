@@ -7,6 +7,7 @@ local cmp_plugin = {
         'hrsh7th/cmp-path',     -- { name = 'path' }
         'hrsh7th/cmp-cmdline',  -- { name = 'cmdline' }
         'hrsh7th/nvim-cmp',
+        'hrsh7th/cmp-nvim-lua',
         -- luasnip
         {
             'L3MON4D3/LuaSnip',
@@ -46,9 +47,8 @@ local cmp_plugin = {
             sources = cmp.config.sources(
                 {
                     { name = 'nvim_lsp' },
+                    { name = 'nvim_lua' },
                     { name = 'luasnip' }, -- For luasnip users.
-                },
-                {
                     { name = 'buffer' },
                     { name = 'path' },
                 }

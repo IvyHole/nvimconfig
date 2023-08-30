@@ -14,3 +14,4 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, normal_opt)
 
 map("n", "<A-o>", ":Lspsaga outline<CR>", silents)
 
+map("n", "<A-l>", ":Gitsigns toggle_current_line_blame<CR>", silents)
