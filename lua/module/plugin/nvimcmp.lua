@@ -24,7 +24,7 @@ local cmp_plugin = {
         local cmp = require'cmp'
 
         cmp.setup({
-            print("running cmp setup"),
+            --print("running cmp setup"),
             -- snipprt引擎
             snippet = {
                 expand = function(args)

@@ -9,7 +9,7 @@ local mason = {
                     package_uninstalled = "✗"
                 }
             },
-            PATH = "prepend", -- "skip" seems to cause the spawning error
+            -- PATH = "prepend", -- "skip" seems to cause the spawning error
         })
     end
 }

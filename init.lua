@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 -- 加载basiclua
 require("configure.basic")
 

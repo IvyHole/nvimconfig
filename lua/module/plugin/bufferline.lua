@@ -1,12 +1,24 @@
+---@diagnostic disable: missing-fields
 local buffline_plugin = {
     'akinsho/bufferline.nvim', 
     version = "*", 
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-        vim.opt.termguicolors = true,
-        require('bufferline').setup{
+        local icons = { ui = require("module.utils.icons").get("ui"),}
+        require("bufferline").setup({
             options = {
-                number = "ordinal",
+                close_command = "Bdelete! %d",
+                middle_mouse_command = function()
+                    require("bufferline").sort_buffers_by(function(buf_a, buf_b)
+                        return buf_a.id < buf_b.id
+                    end)
+                end,
+                right_mouse_command = "Bdelete! %d",
+                number = nil,
+                modified_icon = icons.ui.Modified,
+                buffer_close_icon = icons.ui.Close,
+                left_trunc_marker = icons.ui.Left,
+                right_trunc_marker = icons.ui.Right,
                 max_name_length = 20,
                 max_prefix_length = 13,
                 tab_size = 20,
@@ -19,7 +31,6 @@ local buffline_plugin = {
                 persist_buffer_sort = true,
                 always_show_bufferline = true,
                 separator_style = "slant",
-                
                 diagnostics = "nvim_lsp",
                 diagnostics_indicator = function(count)
                     return "(" .. count .. ")"
@@ -27,19 +38,33 @@ local buffline_plugin = {
                 offsets = {
                     {
                         filetype = "NvimTree",
-                        text = "File Explorer",
-                        text_align = "center",
-                        padding = 0,
+                        -- 🧶 🧵 💯 🗒︎ 🗓️
+                        text = "🗂️ File Explorer",
+                        highlight = "BufferlineCustomeNvimtree",
+                        text_align = "left",
+                        separator = true,
+                    },
+                    {
+                        filetype = "lspsagaoutline",
+                        text = "🧵 outline",
+                        highlight = "BufferlineCustomeNvimtree",
+                        text_align = "right",
                     },
                     {
                         filetype = "Outline",
-                        text = "Symbol Outline",
-                        text_align = "center",
-                        padding = 0,
+                        highlight = "BufferlineCustomeNvimtree",
+                        text = "💯 outline",
+                        text_align = "right",
+                    },
+                    {
+                        filetype = "undotree",
+                        highlight = "BufferlineCustomeNvimtree",
+                        text = "🧶 undo Tree",
+                        text_align = "left",
                     },
                 },
-            }
-        }
+            },
+        })
     end
 }
 return buffline_plugin

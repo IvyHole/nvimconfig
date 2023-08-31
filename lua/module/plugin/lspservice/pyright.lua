@@ -1,4 +1,6 @@
-return  {
+local lspconfig = require("lspconfig")
+local common = require("module.utils.lspcommon")
+local pyright_config =  {
     settings = {
         python = {
             analysis = {
@@ -6,4 +8,9 @@ return  {
             }
         }
     },
+    capabilities = common.capabilities,
+}
+
+return {
+    lspconfig.pyright.setup(pyright_config)
 }
