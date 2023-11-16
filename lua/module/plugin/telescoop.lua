@@ -18,7 +18,7 @@ local telescoop_plugin = {
 			event = { "CursorHold", "CursorHoldI" },
 		},
 		{ "jvgrootveld/telescope-zoxide" },
-		{ "nvim-telescope/telescope-frecency.nvim" },
+		 -- { "nvim-telescope/telescope-frecency.nvim" },
     },
     config = function ()
         local lga_actions = require("telescope-live-grep-args.actions")
@@ -96,12 +96,14 @@ local telescoop_plugin = {
                     override_file_sorter = true,
                     case_mode = "smart_case",
                 },
+                --[[
                 frecency = {
                     use_sqlite = false,
                     show_scores = true,
                     show_unindexed = true,
                     ignore_patterns = { "*.git/*", "*/tmp/*" },
                 },
+                -- ]]
                 live_grep_args = {
                     auto_quoting = true, -- enable/disable auto-quoting
                     -- define mappings, e.g.
@@ -128,7 +130,7 @@ local telescoop_plugin = {
                 },
             },
         }
-        require("telescope").load_extension("frecency")
+        -- require("telescope").load_extension("frecency")
         require("telescope").load_extension("fzf")
         require("telescope").load_extension("live_grep_args")
         require("telescope").load_extension("notify")

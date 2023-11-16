@@ -50,6 +50,7 @@ require("lazy").setup({
     require("module.plugin.persisted"),
     require("module.plugin.glance"),
     require("module.plugin.vimcool"),
+    require("module.plugin.gruvbox"),
     
 })
 

@@ -69,12 +69,12 @@ local dashboard_plugin = {
                     },
                     {
                         icon = ' ',
-                        desc = 'Find session',
+                        desc = 'Find project',
                         desc_hl = 'String',
-                        key = 'l',
-                        keymap = '<leader> l s',
+                        key = 'p',
+                        keymap = '<leader> f p',
                         key_hl = 'Number',
-                        action = require('telescope.builtin').buffers
+                        action = require('telescope.builtin').projects
                     },
 					{
                         icon = ' ',
