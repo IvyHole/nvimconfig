@@ -90,8 +90,6 @@ local treesitter_plugin = {
           },
         }
 
-        require("rainbow_delimiters").setup()
-
         require("treesitter-context").setup({
           enable = true,
           max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.

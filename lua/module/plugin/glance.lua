@@ -12,7 +12,7 @@ local glance = {
                 wrap = true,
             },
             border = {
-                enable = require("core.settings").transparent_background,
+                enable = true,
                 top_char = "―",
                 bottom_char = "―",
             },
