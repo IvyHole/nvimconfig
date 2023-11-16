@@ -6,5 +6,8 @@ require("configure.basic")
 require("module.lazy-init")
 
 -- 加载键盘映射
-require("keymap.common")
+require("keymap.init")
 
+
+-- 加载endlua
+require("configure.end")

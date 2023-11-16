@@ -11,6 +11,7 @@ local nvim_lsp = {
         require("module.plugin.lspservice.pyright")
         require("module.plugin.lspservice.yaml")
         require("module.plugin.lspservice.bash")
+        --require("module.plugin.lspservice.setup")
 
     end
 }

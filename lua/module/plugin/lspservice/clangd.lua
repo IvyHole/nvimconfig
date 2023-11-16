@@ -5,6 +5,7 @@ l_capabilities.offsetEncoding = { "utf-16" }
 
 local clangd_config = {
     capabilities = l_capabilities,
+    single_file_support = true,
 }
 
 return {

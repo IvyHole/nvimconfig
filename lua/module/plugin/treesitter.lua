@@ -1,33 +1,43 @@
 ---@diagnostic disable: missing-fields
 local treesitter_plugin = {
     "nvim-treesitter/nvim-treesitter",
+      lazy = true,
+    build = function()
+      if #vim.api.nvim_list_uis() ~= 0 then
+        vim.api.nvim_command("TSUpdate")
+      end
+    end,
+    event = "BufReadPost",
+    dependencies = {
+        { "nvim-treesitter/nvim-treesitter-textobjects" },
+        { "JoosepAlviste/nvim-ts-context-commentstring" },
+        { "mfussenegger/nvim-treehopper" },
+        { "andymass/vim-matchup" },
+        {
+          "hiphish/rainbow-delimiters.nvim",
+        },
+        {
+          "nvim-treesitter/nvim-treesitter-context",
+        },
+        {
+          "windwp/nvim-ts-autotag",
+        },
+        {
+          "NvChad/nvim-colorizer.lua",
+        },
+        {
+          "abecodes/tabout.nvim",
+        },
+    },
     config = function()
         require'nvim-treesitter.configs'.setup {
-             -- A list of parser names, or "all" (the five listed parsers should always be installed)
             ensure_installed = { "c", "lua", "python", "bash", "cpp", "diff", "proto"},
-
-            -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
-
-             -- Automatically install missing parsers when entering buffer
-              -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
             auto_install = false,
-
-              -- List of parsers to ignore installing (for "all")
             ignore_install = { "javascript" },
-
-             ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-             -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
              highlight = {
                 enable = true,
 
-                   -- NOTE: these are the names of the parserand not the filetype. (for example if you want to
-                  -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-               -- the name of the parser)
-                  -- list of language that will be disabled
-               -- disable = { "c", "rust" },
-               -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
                 disable = function(lang, buf)
                     local max_filesize = 100 * 1024 -- 100 KB
                     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -35,14 +45,95 @@ local treesitter_plugin = {
                           return true
                      end
                  end,
-
-               -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-               -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-               -- Using this option may slow down your editor, and you may see some duplicate highlights.
-                -- Instead of true it can also be a list of languages
-                additional_vim_regex_highlighting = false,
+                additional_vim_regex_highlighting = {"c", "cpp"},
             },
         }
+
+        local function init_strategy(threshold)
+          return function()
+            local errors = 200
+            vim.treesitter.get_parser():for_each_tree(function(lt)
+              if lt:root():has_error() and errors >= 0 then
+                errors = errors - 1
+              end
+            end)
+            if errors < 0 then
+              return nil
+            end
+            return vim.fn.line("$") > threshold and require("rainbow-delimiters").strategy["global"]
+              or require("rainbow-delimiters").strategy["local"]
+          end
+        end
+      
+        vim.g.rainbow_delimiters = {
+          strategy = {
+            [""] = init_strategy(500),
+            c = init_strategy(200),
+            cpp = init_strategy(200),
+            lua = init_strategy(500),
+            vimdoc = init_strategy(300),
+            vim = init_strategy(300),
+          },
+          query = {
+            [""] = "rainbow-delimiters",
+            latex = "rainbow-blocks",
+            javascript = "rainbow-delimiters-react",
+          },
+          highlight = {
+            "RainbowDelimiterRed",
+            "RainbowDelimiterOrange",
+            "RainbowDelimiterYellow",
+            "RainbowDelimiterGreen",
+            "RainbowDelimiterBlue",
+            "RainbowDelimiterCyan",
+            "RainbowDelimiterViolet",
+          },
+        }
+
+        require("rainbow_delimiters").setup()
+
+        require("treesitter-context").setup({
+          enable = true,
+          max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+          min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+          line_numbers = true,
+          multiline_threshold = 20, -- Maximum number of lines to collapse for a single context line
+          trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+          mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+          zindex = 30,
+        })
+
+        require("nvim-ts-autotag").setup({
+          filetypes = {
+            "html",
+            "javascript",
+            "javascriptreact",
+            "typescriptreact",
+            "vue",
+            "xml",
+          },
+        })
+        require("colorizer").setup()
+        require("tabout").setup({
+          tabkey = "", -- key to trigger tabout, set to an empty string to disable
+          backwards_tabkey = "", -- key to trigger backwards tabout, set to an empty string to disable
+          act_as_tab = true, -- shift content if tab out is not possible
+          act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+          enable_backwards = true,
+          completion = true, -- if the tabkey is used in a completion pum
+          tabouts = {
+            { open = "'", close = "'" },
+            { open = '"', close = '"' },
+            { open = "`", close = "`" },
+            { open = "(", close = ")" },
+            { open = "[", close = "]" },
+            { open = "{", close = "}" },
+          },
+          ignore_beginning = true, -- if the cursor is at the beginning of a filled element it will rather tab out than shift the content
+          exclude = {}, -- tabout will ignore these filetypes
+        })
+
+
     end
 }
 

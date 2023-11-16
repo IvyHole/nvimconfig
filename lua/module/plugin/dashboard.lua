@@ -7,8 +7,7 @@ local dashboard_plugin = {
             theme = 'doom',
             config = {
                 header = {
-                    '',
-                    '',
+                    --[[
                     '',
                     '',
                     '',
@@ -24,6 +23,26 @@ local dashboard_plugin = {
                     '            ░ ░                       ░                     ',
                     '',
                     '',
+                    '',
+                    ]]
+                    '',
+                    '',
+                    '',
+                    '⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑',
+                    '⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐',
+                    '⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐',
+                    '⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀',
+                    '⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇',
+                    '⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰',
+                    '⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕',
+                    '⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵',
+                    '⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿',
+                    '⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿',
+                    '⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿',
+                    '⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀',
+                    '⣿⣿⣿⢻⣿⣿⣿⣿⠻⣿⣿⡿⠿⠿⠿⣿⠻⡿⠻⠿⣿⡟⠛⠛⢛⣿⣿',
+                    '⣿⠏⣼⢸⡄⢿⢋⢸⣷⣇⢻⣿⣿⣿⣿⣿⡗⣥⠂⢦⣿⣭⢩⡍⣭⣽⣿',
+                    '⣿⣾⣛⣸⣿⣾⣾⣈⣛⣠⣿⣤⣤⣤⣤⣼⣴⣫⣶⣌⣻⣋⣼⣇⣋⣼⣿',
                     '',
                     '',
                     '',
@@ -41,12 +60,30 @@ local dashboard_plugin = {
                     },
                     {
                         icon = ' ',
-                        desc = 'find buffer file',
+                        desc = 'Find buffer file',
                         desc_hl = 'String',
                         key = 'f',
                         keymap = '<leader> f b',
                         key_hl = 'Number',
                         action = require('telescope.builtin').buffers
+                    },
+                    {
+                        icon = ' ',
+                        desc = 'Find session',
+                        desc_hl = 'String',
+                        key = 'l',
+                        keymap = '<leader> l s',
+                        key_hl = 'Number',
+                        action = require('telescope.builtin').buffers
+                    },
+					{
+                        icon = ' ',
+                        desc = 'Scheme change',
+                        desc_hl = 'String',
+                        key = 'c',
+                        keymap = '<leader> f c',
+                        key_hl = 'Number',
+                        action = require("telescope.builtin").colorscheme
                     },
                 },
                 footer = {}  --your footer

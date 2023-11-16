@@ -18,10 +18,28 @@ local cmp_plugin = {
         'saadparwaiz1/cmp_luasnip',
         -- lspkind
         'onsails/lspkind-nvim',
+        { "lukas-reineke/cmp-under-comparator" },
+        { "andersevenrud/cmp-tmux" },
+        { "f3fora/cmp-spell" },
+        { "kdheepak/cmp-latex-symbols" },
+        { "ray-x/cmp-treesitter", commit = "c8e3a74" },
     },
     config = function()
         local lspkind = require('lspkind')
-        local cmp = require'cmp'
+        local cmp = require('cmp')
+
+        local border = function(hl)
+            return {
+                { "┌", hl },
+                { "─", hl },
+                { "┐", hl },
+                { "│", hl },
+                { "┘", hl },
+                { "─", hl },
+                { "└", hl },
+                { "│", hl },
+            }
+        end
 
         cmp.setup({
             --print("running cmp setup"),
@@ -32,8 +50,15 @@ local cmp_plugin = {
                 end,
             },
             window = {
-            -- completion = cmp.config.window.bordered(),
-            -- documentation = cmp.config.window.bordered(),
+                completion = {
+                    border = border("PmenuBorder"),
+                    winhighlight = "Normal:Pmenu,CursorLine:PmenuSel,Search:PmenuSel",
+                    scrollbar = false,
+                },
+                documentation = {
+                    border = border("CmpDocBorder"),
+                    winhighlight = "Normal:CmpDoc",
+                },
             },
             mapping = cmp.mapping.preset.insert({
                 ['<Tab>'] = cmp.mapping.select_next_item(),
@@ -46,20 +71,42 @@ local cmp_plugin = {
             }),
             sources = cmp.config.sources(
                 {
-                    { name = 'nvim_lsp' },
-                    { name = 'nvim_lua' },
-                    { name = 'luasnip' }, -- For luasnip users.
-                    { name = 'buffer' },
-                    { name = 'path' },
+                    { name = "nvim_lsp"},
+                    { name = "nvim_lua" },
+                    { name = "luasnip" },
+                    { name = "path" },
+                    { name = "treesitter" },
+                    { name = "spell" },
+                    { name = "tmux" },
+                    { name = "orgmode" },
+                    { name = "buffer" },
+                    { name = "latex_symbols" },
                 }
             ),
             formatting = {
                 format = lspkind.cmp_format({
                 with_text = true, -- do not show text alongside icons
-                maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                max_width = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                max_height = 20,
                 before = function (entry, vim_item)
                     -- Source 显示提示来源
-                    vim_item.menu = "["..string.upper(entry.source.name).."]"
+                    vim_item.menu = setmetatable({
+                        cmp_tabnine = "[TN]",
+                        buffer = "[BUF]",
+                        orgmode = "[ORG]",
+                        nvim_lsp = "[LSP]",
+                        nvim_lua = "[LUA]",
+                        path = "[PATH]",
+                        tmux = "[TMUX]",
+                        treesitter = "[TS]",
+                        latex_symbols = "[LTEX]",
+                        luasnip = "[SNIP]",
+                        spell = "[SPELL]",
+                    }, {
+                        __index = function()
+                            return "[BTN]" -- builtin/unknown source names
+                        end,
+                    })[entry.source.name]
                     return vim_item
                 end
                 })

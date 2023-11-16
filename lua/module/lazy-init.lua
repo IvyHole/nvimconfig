@@ -14,12 +14,14 @@ vim.opt.rtp:prepend(lazypath)
 
 -- lazy.nvim插件管理
 require("lazy").setup({
-    require("module.plugin.onedark"),
+    -- require("module.plugin.onedark"),
+	require("module.plugin.tokynight"),
+	require("module.plugin.nui"),
     require("module.plugin.nvimtree"),
     require("module.plugin.lualine"),
     require("module.plugin.undotree"),
-    require("module.plugin.rainbow"),
-    -- require("module.plugin.cocnvim"),
+    --require("module.plugin.rainbow"),
+    --require("module.plugin.cocnvim"),
     -- require("module.plugin.neotree"),
     require("module.plugin.telescoop"),
     require("module.plugin.dashboard"),
@@ -30,7 +32,8 @@ require("lazy").setup({
     require("module.plugin.symbolsoutline"),
     require("module.plugin.mason"),
     require("module.plugin.masonlsp"),
-    require("module.plugin.nvimlsp"),
+	require("module.plugin.nvimlsp"),
+    --require("module.plugin.nvimlspinstall"),
     require("module.plugin.nvimcmp"),
     require("module.plugin.gitsigns"),
     require("module.plugin.whichkey"),
@@ -41,4 +44,13 @@ require("lazy").setup({
     require("module.plugin.neodev"),
     require("module.plugin.project"),
     require("module.plugin.bufdel"),
+    require("module.plugin.nvimscrollbar"),
+    require("module.plugin.mywords"),
+    require("module.plugin.onedarkpro"),
+    require("module.plugin.persisted"),
+    require("module.plugin.glance"),
+    require("module.plugin.vimcool"),
+    
 })
+
+require("module.utils.telescopesession")

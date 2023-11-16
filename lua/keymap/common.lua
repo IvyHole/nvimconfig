@@ -1,42 +1,21 @@
-local map = vim.api.nvim_set_keymap
-local silents = {noremap = true, silent = true }
-local normal_opts = {}
+local bind = require("keymap.bind")
+local map_cr = bind.map_cr
+local map_cmd = bind.map_cmd
+local map_callback = bind.map_callback
 
--- 配置leader按键
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+local plug_map = {
+    -- 复制粘贴操作
+    ["n|<C-v>"] = map_cmd('"+p'):with_silent():with_desc("Nvim: Stickup From global"),
+    ["i|<C-v>"] = map_cmd('<Esc> "+p'):with_silent():with_desc("Nvim: Stickup From global in insert mode"),
+    ["v|<C-c>"] = map_cmd('+y'):with_silent():with_desc("Nvim: Copy to global"),
+    ["i|<C-c>"] = map_cmd('<Esc>'):with_silent():with_desc("Nvim: Esc to normal mode in insert"),
 
+    -- 分屏操作
+    ["n|spl"] = map_cr('set splitright<CR>:vsplit'):with_silent():with_desc("Nvim: split right"),
+    ["n|sph"] = map_cr('set nosplitright<CR>:vsplit'):with_silent():with_desc("Nvim: no split right"),
+    ["n|spj"] = map_cr('set splitbelow<CR>:vsplit'):with_silent():with_desc("Nvim: split below"),
+    ["n|spk"] = map_cr('set nosplitbelow<CR>:vsplit'):with_silent():with_desc("Nvim: no split below"),
 
--- map("n", "<A-R>", ":source $MYVIMRC", normal_opts) -- 刷新lua
-map("n", "<C-v>", '"+p', normal_opts)              -- 粘贴
-map("i", "<C-v>", '<Esc> "+p ', normal_opts) 
-map("v", "<C-c>", '"+y', normal_opts)              -- 复制
-map("i", "<C-c>", "<ESC>", normal_opts)            -- 编辑模式退出
--- map("n", "<C-s>", ": w<CR>", normal_opts)              -- 普通模式保存
--- map("i", "<C-s>", "<ESC> : w<CR>", normal_opts)              -- 编辑模式保存
--- map("n", "<C-F>", ":NvimTreeFindFile<CR>", normal_opts)       -- ctrl+F
+}
 
-
----[[ 分屏相关操作
-map("n", "spl", ":set splitright<CR>:vsplit<CR>", silents)
-map("n", "sph", ":set nosplitright<CR>:vsplit<CR>", silents)
-map("n", "spj", ":set splitbelow<CR>:vsplit<CR>", silents)
-map("n", "spk", ":set nosplitbelow<CR>:vsplit<CR>", silents)
-
-map("n", "<A-h>", "<C-w>h", silents)
-map("n", "<A-j>", "<C-w>j", silents)
-map("n", "<A-k>", "<C-w>k", silents)
-map("n", "<A-l>", "<C-w>l", silents)
---]]
-
----[[ table相关操作
-map("n", "tu", ":tabe<CR>", silents) --增加table
-map("n", "tc", ":tabc<CR>", silents) --删除table
-map("n", "tp", ":-tabnext<CR>", silents)
-map("n", "tn", ":+tabnext<CR>", silents)
-map("n", "tmn", ":-tabmove<CR>", silents)
-map("n", "tmi", ":+tabmove<CR>", silents)
---]]
-
-require("keymap.plugin")
-require("keymap.autocmd")
+bind.nvim_load_mapping(plug_map)
