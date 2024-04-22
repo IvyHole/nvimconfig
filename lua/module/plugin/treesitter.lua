@@ -31,7 +31,7 @@ local treesitter_plugin = {
     },
     config = function()
         require'nvim-treesitter.configs'.setup {
-            ensure_installed = { "c", "lua", "python", "bash", "cpp", "diff", "proto"},
+            ensure_installed = { "c", "lua", "python", "bash", "cpp", "diff", "proto", "markdown", "markdown_inline"},
             sync_install = false,
             auto_install = false,
             ignore_install = { "javascript" },

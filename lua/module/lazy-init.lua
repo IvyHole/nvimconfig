@@ -51,7 +51,8 @@ require("lazy").setup({
     require("module.plugin.glance"),
     require("module.plugin.vimcool"),
     require("module.plugin.gruvbox"),
-    
+    require("module.plugin.catppuccin"),
 })
 
 require("module.utils.telescopesession")
+require("luasnip.loaders.from_lua").load({paths = vim.fn.stdpath("config") .. "/luasnip"})
