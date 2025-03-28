@@ -38,9 +38,6 @@ local gitsigns_plugin = {
                 row = 0,
                 col = 1
             },
-            yadm = {
-            enable = false
-            },
         }
     end
 }
