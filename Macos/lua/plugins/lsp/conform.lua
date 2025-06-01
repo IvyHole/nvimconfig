@@ -1,5 +1,5 @@
-return{
-    {
+return {
+  {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     opts = {
@@ -18,7 +18,7 @@ return{
       end,
     },
     init = function()
-      vim.g.enable_autoformat = true
+      vim.g.enable_autoformat = false
       require("snacks").toggle
         .new({
           id = "auto_format",
@@ -34,3 +34,4 @@ return{
     end,
   },
 }
+

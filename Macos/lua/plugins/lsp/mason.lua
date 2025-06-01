@@ -13,6 +13,10 @@ local masonPlugin = {
         ensure_installed = {
             "lua-language-server",
             "stylua",
+            "checkmake",
+            "clangd",
+            "cmake-language-server",
+            "pyright",
         },
     },
     config = function(_, opts)
