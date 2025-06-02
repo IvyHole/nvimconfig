@@ -65,7 +65,7 @@ local blinkPlugin = {
         ["<C-u>"] = { "scroll_documentation_up", "fallback" },
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
 
-        ["<Tab>"] = { 'show_and_insert', 'select_next' },
+        ["<Tab>"] = { 'select_next', 'fallback' },
         ["<CR>"] = {
           function(cmp)
             return cmp.select_and_accept()
