@@ -23,6 +23,10 @@ local mapping = {
     ["n|sph"] = bind.map_cr('set nosplitright<CR>:vsplit'):with_silent():with_desc("Nvim: no split right"),
     ["n|spj"] = bind.map_cr('set splitbelow<CR>:vsplit'):with_silent():with_desc("Nvim: split below"),
     ["n|spk"] = bind.map_cr('set nosplitbelow<CR>:vsplit'):with_silent():with_desc("Nvim: no split below"),
+    ["n|<leader>nr"] = bind.map_cr('set relativenumber'):with_silent():with_desc('[vim]: set relativenuber'),
+    ["n|<leader>nn"] = bind.map_cr('set norelativenumber'):with_silent():with_desc('[vim]: set norelativenuber')
+
+    
 
 }
 
