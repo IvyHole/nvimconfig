@@ -171,6 +171,36 @@ return{
       { "<leader>sf", function() require("snacks").picker.files() end, desc = "[Snacks] Find files" },
       { "<leader>sp", function() require("snacks").picker.projects() end, desc = "[Snacks] Projects" },
       { "<leader>sr", function() require("snacks").picker.recent() end, desc = "[Snacks] Recent" },
+      {
+      "<leader>sfd",
+      function()
+        local Snacks = require("snacks")
+        Snacks.picker({
+          finder = "proc",
+          cmd = "fd",
+          args = { "--type", "d", "--exclude", ".git" },
+          title = "Select search directory",
+          layout = {
+            preset = "select",
+          },
+          actions = {
+            confirm = function(picker, item)
+              picker:close()
+              vim.schedule(function()
+                Snacks.picker.grep({
+                  cwd = item.file,
+                })
+              end)
+            end,
+          },
+          transform = function(item)
+            item.file = item.text
+            item.dir = true
+          end,
+        })
+      end,
+      desc = "Search in dir",
+      },
       -- git
       { "<C-g>", function() require("snacks").lazygit() end, desc = "[Snacks] Lazygit" },
       { "<leader>ggl", function() require("snacks").picker.git_log() end, desc = "[Snacks] Git log" },
@@ -181,7 +211,7 @@ return{
       -- { "<leader>sb", function() require("snacks").picker.lines() end, desc = "[Snacks] Buffer lines" },
       -- { "<leader>sB", function() require("snacks").picker.grep_buffers() end, desc = "[Snacks] Grep open buffers" },
       { "<leader>sg", function() require("snacks").picker.grep() end, desc = "[Snacks] Grep" },
-      -- { "<leader>sw", function() require("snacks").picker.grep_word() end, desc = "[Snacks] Visual selection or word", mode = { "n", "x" } },
+      { "<leader>sw", function() require("snacks").picker.grep_word() end, desc = "[Snacks] Visual selection or word", mode = { "n", "x" } },
       -- search
       { '<leader>s"', function() require("snacks").picker.registers() end, desc = "[Snacks] Registers" },
       { '<leader>s/', function() require("snacks").picker.search_history() end, desc = "[Snacks] Search history" },
